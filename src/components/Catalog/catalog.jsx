@@ -50,7 +50,7 @@ export default function Catalog() {
         </TableHead>
         <TableBody>
           
-           { car.map((car, index) => (
+           {car.map((car, index) => (
               <TableRow key={index}>
                 <TableCell>{car.model}</TableCell>
                 <TableCell>{car.year}</TableCell>

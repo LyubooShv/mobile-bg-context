@@ -61,6 +61,7 @@ const CarsProvider = ({ children }) => {
       mileage,
       extras,
     });
+    newCar[newCar.length-1].model===null ? newCar.pop() :
   setCar(newCar);
   };
 
@@ -76,6 +77,7 @@ const CarsProvider = ({ children }) => {
     setCity(null);
     setMileage(null);
     setExtras(null);
+    console.log(car);
   }, [car]);
 
   return (
