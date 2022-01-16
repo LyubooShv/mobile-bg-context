@@ -18,11 +18,11 @@ export const CarsContext = createContext({
 });
 
 const CarsProvider = ({ children }) => {
-  const [car, setCar] = useState("");
+  const [car, setCar] = useState([]);
   const [model, setModel] = useState("");
   const [year, setYear] = useState("");
   const [engine, setEngine] = useState("");
-  const [gear, setGear] = useState([]);
+  const [gear, setGear] = useState('');
   const [condition, setCondition] = useState("");
   const [power, setPower] = useState("");
   const [color, setColor] = useState("");
