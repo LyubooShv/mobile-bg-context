@@ -49,8 +49,8 @@ export default function Catalog() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {car ?
-            car.map((car, index) => (
+          
+           { car.map((car, index) => (
               <TableRow key={index}>
                 <TableCell>{car.model}</TableCell>
                 <TableCell>{car.year}</TableCell>
@@ -64,9 +64,7 @@ export default function Catalog() {
                 <TableCell align="right">{car.mileage}</TableCell>
                 <TableCell>{car.extras}</TableCell>
               </TableRow> 
-            )) : <TableRow>
-            <TableCell>Empty</TableCell>
-          </TableRow>} 
+            )) }
         </TableBody>
       </Table>
       <div>
