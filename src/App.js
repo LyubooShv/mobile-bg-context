@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext } from "react";
+import SignInPage from "./components/SignIn/signInPage";
+import SignUpPage from "./components/SignUp/signUpPage";
+import { Routes, Route, Navigate } from "react-router-dom";
+import {CurrentUserContext} from './context/current-user';
+import Catalog from "./components/Catalog/catalog";
+import CarsProvider from "./context/cars";
+import ModalProvider from "./context/modal";
 
 function App() {
+
+const {loggedIn} = useContext(CurrentUserContext)
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route
+          exact
+          path="/"
+          element={loggedIn ? <Navigate to="/catalog" /> : <SignInPage />}
+        />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/catalog" element={ <ModalProvider><CarsProvider><Catalog /></CarsProvider></ModalProvider>} />
+      </Routes>
     </div>
   );
 }
