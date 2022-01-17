@@ -15,6 +15,9 @@ export const CarsContext = createContext({
   extras: "",
   handleChange: () => {},
   Create: () => {},
+  deleteCar:()=>{},
+  updateCar:()=>{},
+  Search:()=>{}
 });
 
 const CarsProvider = ({ children }) => {
@@ -65,6 +68,33 @@ const CarsProvider = ({ children }) => {
   setCar(newCar);
   };
 
+  const deleteCar = (e) =>{
+    setCar(car.filter((el,index)=>index!==e))
+  }
+  
+  const updateCar = (e) =>{
+    const updatedCar = [...car]
+    updatedCar.splice(e,1,{
+      model,
+      year,
+      engine,
+      gear,
+      condition,
+      power,
+      color,
+      price,
+      city,
+      mileage,
+      extras,
+    });
+  setCar(updatedCar);
+
+  }
+
+  const Search = (searchName)=>{
+    setCar(car.filter((e) => e.model.toUpperCase() === searchName.toUpperCase()))
+     }
+
   useEffect(() => {
     setModel(null);
     setYear(null);
@@ -97,6 +127,9 @@ const CarsProvider = ({ children }) => {
         extras,
         handleChange,
         Create,
+        deleteCar,
+        updateCar,
+        Search
       }}
     >
       {children}
