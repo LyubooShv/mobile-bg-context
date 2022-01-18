@@ -15,9 +15,9 @@ export const CarsContext = createContext({
   extras: "",
   handleChange: () => {},
   Create: () => {},
-  deleteCar:()=>{},
-  updateCar:()=>{},
-  Search:()=>{}
+  deleteCar: () => {},
+  updateCar: () => {},
+  Search: () => {},
 });
 
 const CarsProvider = ({ children }) => {
@@ -25,7 +25,7 @@ const CarsProvider = ({ children }) => {
   const [model, setModel] = useState("");
   const [year, setYear] = useState("");
   const [engine, setEngine] = useState("");
-  const [gear, setGear] = useState('');
+  const [gear, setGear] = useState("");
   const [condition, setCondition] = useState("");
   const [power, setPower] = useState("");
   const [color, setColor] = useState("");
@@ -64,17 +64,16 @@ const CarsProvider = ({ children }) => {
       mileage,
       extras,
     });
-    newCar[newCar.length-1].model===null ? newCar.pop() :
-  setCar(newCar);
+    newCar[newCar.length - 1].model === null ? newCar.pop() : setCar(newCar);
   };
 
-  const deleteCar = (e) =>{
-    setCar(car.filter((el,index)=>index!==e))
-  }
-  
-  const updateCar = (e) =>{
-    const updatedCar = [...car]
-    updatedCar.splice(e,1,{
+  const deleteCar = (e) => {
+    setCar(car.filter((el, index) => index !== e));
+  };
+
+  const updateCar = (e) => {
+    const updatedCar = [...car];
+    updatedCar.splice(e, 1, {
       model,
       year,
       engine,
@@ -87,13 +86,14 @@ const CarsProvider = ({ children }) => {
       mileage,
       extras,
     });
-  setCar(updatedCar);
+    setCar(updatedCar);
+  };
 
-  }
-
-  const Search = (searchName)=>{
-    setCar(car.filter((e) => e.model.toUpperCase() === searchName.toUpperCase()))
-     }
+  const Search = (searchName) => {
+    setCar(
+      car.filter((e) => e.model.toUpperCase() === searchName.toUpperCase())
+    );
+  };
 
   useEffect(() => {
     setModel(null);
@@ -129,7 +129,7 @@ const CarsProvider = ({ children }) => {
         Create,
         deleteCar,
         updateCar,
-        Search
+        Search,
       }}
     >
       {children}

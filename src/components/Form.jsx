@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useContext} from "react";
+import { useContext } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,7 +11,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import {CurrentUserContext} from '../context/current-user';
+import { CurrentUserContext } from "../context/current-user";
 
 function Copyright(props) {
   return (
@@ -36,8 +36,7 @@ export default function Form({
   signInOrUpText,
   goToCatalogText,
 }) {
-
-const {handleChange,handleSubmit,SignUp} = useContext(CurrentUserContext)
+  const { handleChange, handleSubmit, SignUp } = useContext(CurrentUserContext);
 
   return (
     <ThemeProvider theme={theme}>
@@ -59,7 +58,7 @@ const {handleChange,handleSubmit,SignUp} = useContext(CurrentUserContext)
           </Typography>
           <Box
             component="form"
-            onSubmit={submitBtnText==='Sign In' ? handleSubmit : SignUp}
+            onSubmit={submitBtnText === "Sign In" ? handleSubmit : SignUp}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -86,20 +85,21 @@ const {handleChange,handleSubmit,SignUp} = useContext(CurrentUserContext)
               onChange={handleChange}
             />
 
-           
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                {submitBtnText}
-              </Button>
-         
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              {submitBtnText}
+            </Button>
 
             <Grid container>
               <Grid item>
-                <Link className="signInOrUp" to={submitBtnText==='Sign In' ? "/signup" : '/'}>
+                <Link
+                  className="signInOrUp"
+                  to={submitBtnText === "Sign In" ? "/signup" : "/"}
+                >
                   {signInOrUpText}
                 </Link>
               </Grid>

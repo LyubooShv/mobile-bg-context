@@ -6,6 +6,7 @@ import {CurrentUserContext} from './context/current-user';
 import Catalog from "./components/Catalog/catalog";
 import CarsProvider from "./context/cars";
 import ModalProvider from "./context/modal";
+import './App.css'
 
 function App() {
 

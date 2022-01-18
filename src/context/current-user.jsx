@@ -1,4 +1,4 @@
-import React,{ createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
 export const CurrentUserContext = createContext({
   loggedIn: false,
@@ -40,12 +40,14 @@ const CurrentUserProvider = ({ children }) => {
     const user = [...newUser];
     user.push({ email, password });
     user.length > 1
-      ? user.forEach((el,index) => {
-         if( el.email === user[user.length - 1].email && index!==user.length - 1){
-             user.pop();
-             alert("there is a user with that name")
-         }
-            else setNewUser(user);
+      ? user.forEach((el, index) => {
+          if (
+            el.email === user[user.length - 1].email &&
+            index !== user.length - 1
+          ) {
+            user.pop();
+            alert("there is a user with that name");
+          } else setNewUser(user);
         })
       : setNewUser(user);
 

@@ -12,7 +12,6 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import './catalog.css'
 
 const style = {
   position: "absolute",
@@ -27,8 +26,10 @@ const style = {
 };
 
 export default function Catalog() {
-  const { open, handleClose, handleOpen, goToUpdate, openUpdate,index } = useContext(ModalContext);
-  const { handleChange, Create, car, deleteCar, updateCar } = useContext(CarsContext);
+  const { open, handleClose, handleOpen, goToUpdate, openUpdate, index } =
+    useContext(ModalContext);
+  const { handleChange, Create, car, deleteCar, updateCar } =
+    useContext(CarsContext);
 
   return (
     <React.Fragment>
@@ -36,40 +37,45 @@ export default function Catalog() {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell align="right">Model</TableCell>
-            <TableCell align="right">Year</TableCell>
-            <TableCell align="right">Engine Type</TableCell>
-            <TableCell align="right">Gear Box</TableCell>
-            <TableCell align="right">Condition</TableCell>
-            <TableCell align="right">Horse Power</TableCell>
-            <TableCell align="right">Color</TableCell>
-            <TableCell align="right">Price $</TableCell>
-            <TableCell align="right">City</TableCell>
-            <TableCell align="right">Mileage</TableCell>
-            <TableCell align="right">Extras</TableCell>
+            <TableCell>Model</TableCell>
+            <TableCell>Year</TableCell>
+            <TableCell>Engine Type</TableCell>
+            <TableCell>Gear Box</TableCell>
+            <TableCell>Condition</TableCell>
+            <TableCell>Horse Power</TableCell>
+            <TableCell>Color</TableCell>
+            <TableCell>Price $</TableCell>
+            <TableCell>City</TableCell>
+            <TableCell>Mileage</TableCell>
+            <TableCell>Extras</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          
-           {car.map((car, index) => (
-             <div key={index}>
-             <button className="carBtn" onClick={()=>goToUpdate(index)}>+</button>
-             <button className="carBtn" onClick={()=>deleteCar(index)}>x</button>
-              <TableRow  >
-                <TableCell align="left">{car.model}</TableCell>
-                <TableCell align="left">{car.year}</TableCell>
-                <TableCell align="left">{car.engine}</TableCell>
-                <TableCell align="left">{car.gear}</TableCell>
-                <TableCell align="left">{car.condition}</TableCell>
-                <TableCell align="left">{car.power}</TableCell>
-                <TableCell align="left">{car.color}</TableCell>
-                <TableCell align="left">{car.price}</TableCell>
-                <TableCell align="left">{car.city}</TableCell>
-                <TableCell align="left">{car.mileage}</TableCell>
-                <TableCell align="left">{car.extras}</TableCell>
-              </TableRow> 
-              </div>
-            )) }
+          {car.map((car, index) => (
+            <TableRow key={index}>
+              <TableCell>
+                <>
+                  <button className="carBtn" onClick={() => goToUpdate(index)}>
+                    +
+                  </button>
+                  <button className="carBtn" onClick={() => deleteCar(index)}>
+                    x
+                  </button>
+                </>
+                {car.model}
+              </TableCell>
+              <TableCell align="left">{car.year}</TableCell>
+              <TableCell align="left">{car.engine}</TableCell>
+              <TableCell align="left">{car.gear}</TableCell>
+              <TableCell align="left">{car.condition}</TableCell>
+              <TableCell align="left">{car.power}</TableCell>
+              <TableCell align="left">{car.color}</TableCell>
+              <TableCell align="left">{car.price}</TableCell>
+              <TableCell align="left">{car.city}</TableCell>
+              <TableCell align="left">{car.mileage}</TableCell>
+              <TableCell align="left">{car.extras}</TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
       <div>
@@ -112,8 +118,11 @@ export default function Catalog() {
                 placeholder="extras"
                 onChange={handleChange}
               />
-            { openUpdate ? <Button onClick={()=>updateCar(index)}>Update</Button> : <Button onClick={Create}>Create</Button>}
-            
+              {openUpdate ? (
+                <Button onClick={() => updateCar(index)}>Update</Button>
+              ) : (
+                <Button onClick={Create}>Create</Button>
+              )}
             </Typography>
           </Box>
         </Modal>

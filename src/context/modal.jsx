@@ -3,16 +3,16 @@ import React, { createContext, useState } from "react";
 export const ModalContext = createContext({
   open: false,
   openUpdate: false,
-  index:'',
+  index: "",
   handleOpen: () => {},
   handleClose: () => {},
-  goToUpdate:() =>{}
+  goToUpdate: () => {},
 });
 
 const ModalProvider = ({ children }) => {
   const [open, setOpen] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
-  const [index, setIndex] = useState('');
+  const [index, setIndex] = useState("");
 
   const handleOpen = () => {
     setOpen(true);
@@ -20,17 +20,19 @@ const ModalProvider = ({ children }) => {
 
   const handleClose = () => {
     setOpen(false);
-    setOpenUpdate(false)
+    setOpenUpdate(false);
   };
 
-  const goToUpdate = (e) =>{
+  const goToUpdate = (e) => {
     setOpenUpdate(true);
     setOpen(true);
-    setIndex(e)
-  }
+    setIndex(e);
+  };
 
   return (
-    <ModalContext.Provider value={{ open, handleClose, handleOpen, openUpdate, goToUpdate, index }}>
+    <ModalContext.Provider
+      value={{ open, handleClose, handleOpen, openUpdate, goToUpdate, index }}
+    >
       {children}
     </ModalContext.Provider>
   );
