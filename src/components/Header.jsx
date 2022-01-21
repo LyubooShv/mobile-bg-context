@@ -4,7 +4,7 @@ import { CurrentUserContext } from "../context/current-user";
 import { SearchNameContext } from "../context/searchContext";
 
 const Header = () => {
-  const { currentUser, SignOut } = useContext(CurrentUserContext);
+  const { loggedIn, SignOut } = useContext(CurrentUserContext);
   const { nameChange, searchName } = useContext(SearchNameContext);
 
   return (
@@ -13,7 +13,7 @@ const Header = () => {
         <h2>Simple Cars</h2>
       </div>
       <div className="signInOutLink">
-        {currentUser ? (
+        {loggedIn ? (
           <div className="signInsignOutLink" onClick={SignOut}>
             Sign Out
           </div>

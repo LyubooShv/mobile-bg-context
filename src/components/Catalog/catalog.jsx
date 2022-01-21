@@ -46,6 +46,7 @@ export default function Catalog() {
       <Table size="small">
         <TableHead>
           <TableRow>
+            <TableCell>Make</TableCell>
             <TableCell>Model</TableCell>
             <TableCell>Year</TableCell>
             <TableCell>Engine Type</TableCell>
@@ -60,7 +61,7 @@ export default function Catalog() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {car &&
+          {Search(searchName).length ? (
             Search(searchName).map((car, index) => (
               <TableRow key={car.id}>
                 <TableCell>
@@ -78,7 +79,7 @@ export default function Catalog() {
                       x
                     </button>
                   </>
-                  {car.model}
+                  {car.make}
                 </TableCell>
                 <TableCell align="left">{car.model}</TableCell>
                 <TableCell align="left">{car.year}</TableCell>
@@ -92,7 +93,12 @@ export default function Catalog() {
                 <TableCell align="left">{car.mileage}</TableCell>
                 <TableCell align="left">{car.extras}</TableCell>
               </TableRow>
-            ))}
+            ))
+          ) : (
+            <TableRow>
+              <TableCell>There Is No Such Model</TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
       <div>
@@ -108,6 +114,7 @@ export default function Catalog() {
               Create a car
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              <input name="make" placeholder="make" onChange={handleChange} />
               <input name="model" placeholder="model" onChange={handleChange} />
               <input name="year" placeholder="year" onChange={handleChange} />
               <input

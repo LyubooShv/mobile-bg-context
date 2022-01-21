@@ -4,6 +4,7 @@ import { CurrentUserContext } from "./current-user";
 
 export const CarsContext = createContext({
   car: [],
+  make: "",
   model: "",
   year: "",
   engine: "",
@@ -26,6 +27,7 @@ const CarsProvider = ({ children }) => {
   const { currentUser } = useContext(CurrentUserContext);
 
   const [car, setCar] = useState([]);
+  const [make, setMake] = useState("");
   const [model, setModel] = useState("");
   const [year, setYear] = useState(null);
   const [engine, setEngine] = useState("");
@@ -41,6 +43,7 @@ const CarsProvider = ({ children }) => {
   const handleChange = (event) => {
     const { value, name } = event.target;
 
+    name === "make" && setMake(value);
     name === "model" && setModel(value);
     name === "year" && setYear(value);
     name === "engine" && setEngine(value);
@@ -60,7 +63,7 @@ const CarsProvider = ({ children }) => {
       .post(
         "http://localhost:8083/cars/",
         {
-          make: "",
+          make: make,
           model: model,
           year: year,
           engineType: engine,
@@ -82,6 +85,7 @@ const CarsProvider = ({ children }) => {
       })
       .then(() => setCar(newCar))
       .then(() => {
+        setMake(null);
         setModel(null);
         setYear(null);
         setEngine(null);
@@ -117,7 +121,7 @@ const CarsProvider = ({ children }) => {
         `http://localhost:8083/cars/${currentUser.data.user.id}`,
         {
           id: carId,
-          make: "",
+          make,
           model,
           year,
           engineType: engine,
@@ -169,6 +173,7 @@ const CarsProvider = ({ children }) => {
     <CarsContext.Provider
       value={{
         car,
+        make,
         model,
         year,
         engine,
