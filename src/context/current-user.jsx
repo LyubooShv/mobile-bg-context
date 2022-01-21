@@ -1,13 +1,11 @@
 import React, { createContext, useState, useEffect } from "react";
+const axios = require("axios");
 
 export const CurrentUserContext = createContext({
   loggedIn: false,
-  signUp: false,
   email: "",
-  newUser: [],
   currentUser: "",
   password: "",
-  currentPassword: "",
   handleChange: () => {},
   handleSubmit: () => {},
   SignUp: () => {},
@@ -16,12 +14,9 @@ export const CurrentUserContext = createContext({
 
 const CurrentUserProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [signUp, setSignUp] = useState(false);
   const [email, setEmail] = useState("");
-  const [newUser, setNewUser] = useState([]);
-  const [currentUser, setCurrentUser] = useState("");
+  const [currentUser, setCurrentUser] = useState({});
   const [password, setPassword] = useState("");
-  const [currentPassword, setCurrentPassword] = useState("");
 
   const handleChange = (event) => {
     const { value, name } = event.target;
@@ -31,52 +26,61 @@ const CurrentUserProvider = ({ children }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setCurrentUser(email);
-    setCurrentPassword(password);
+    axios
+      .post("http://localhost:8083/users/login", {
+        username: email,
+        password: password,
+      })
+      .then(
+        (response) => {
+          setCurrentUser(response);
+          setLoggedIn(true);
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+          alert("Try again");
+        }
+      );
   };
 
   const SignUp = (event) => {
     event.preventDefault();
-    const user = [...newUser];
-    user.push({ email, password });
-    user.length > 1
-      ? user.forEach((el, index) => {
-          if (
-            el.email === user[user.length - 1].email &&
-            index !== user.length - 1
-          ) {
-            user.pop();
-            alert("there is a user with that name");
-          } else setNewUser(user);
-        })
-      : setNewUser(user);
-
-    setSignUp(true);
+    axios
+      .post("http://localhost:8083/users/register", {
+        username: email,
+        password: password,
+        firstName: "",
+        lastName: "",
+      })
+      .then(
+        (response) => {
+          console.log(response.config.data);
+        },
+        (error) => {
+          console.log(error);
+          alert("Try again");
+        }
+      );
   };
 
   const SignOut = () => {
     setCurrentUser(null);
-    setCurrentPassword(null);
     setLoggedIn(false);
   };
 
   useEffect(() => {
-    currentUser && currentPassword && setLoggedIn(true);
     setEmail(null);
     setPassword(null);
-    console.log(currentUser, currentPassword, newUser, loggedIn);
-  }, [currentUser, newUser, loggedIn, currentPassword]);
+  }, [currentUser]);
 
   return (
     <CurrentUserContext.Provider
       value={{
         loggedIn,
-        signUp,
         email,
-        newUser,
         currentUser,
         password,
-        currentPassword,
         handleChange,
         handleSubmit,
         SignUp,

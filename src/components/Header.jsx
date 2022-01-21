@@ -1,15 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { CurrentUserContext } from "../context/current-user";
-import { CarsContext } from "../context/cars";
+import { SearchNameContext } from "../context/searchContext";
+
 const Header = () => {
   const { currentUser, SignOut } = useContext(CurrentUserContext);
-  const { Search } = useContext(CarsContext);
-  const [searchName, setSearchName] = useState("");
-
-  const handleChange = (e) => {
-    setSearchName(e.target.value);
-  };
+  const { nameChange, searchName } = useContext(SearchNameContext);
 
   return (
     <div className="headerBox">
@@ -30,11 +26,10 @@ const Header = () => {
       <div className="searchInput">
         <input
           placeholder="search cars"
-          onChange={handleChange}
+          onChange={nameChange}
           value={searchName}
         />
       </div>
-      <button onClick={() => Search(searchName)}>search</button>
     </div>
   );
 };

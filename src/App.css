@@ -15,7 +15,7 @@
 }
 
 .headerBox {
-  height: 200px;
+  height: 180px;
   width: 100px;
   display: flex;
   flex-direction: column;

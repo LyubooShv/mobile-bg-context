@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Header from "../Header";
 import { CarsContext } from "../../context/cars";
 import { ModalContext } from "../../context/modal";
+import { SearchNameContext } from "../../context/searchContext";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -26,10 +27,18 @@ const style = {
 };
 
 export default function Catalog() {
-  const { open, handleClose, handleOpen, goToUpdate, openUpdate, index } =
-    useContext(ModalContext);
-  const { handleChange, Create, car, deleteCar, updateCar } =
+  const {
+    open,
+    handleClose,
+    handleOpen,
+    goToUpdate,
+    openUpdate,
+    index,
+    carId,
+  } = useContext(ModalContext);
+  const { handleChange, Create, car, deleteCar, updateCar, Search } =
     useContext(CarsContext);
+  const { searchName } = useContext(SearchNameContext);
 
   return (
     <React.Fragment>
@@ -51,31 +60,39 @@ export default function Catalog() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {car.map((car, index) => (
-            <TableRow key={index}>
-              <TableCell>
-                <>
-                  <button className="carBtn" onClick={() => goToUpdate(index)}>
-                    +
-                  </button>
-                  <button className="carBtn" onClick={() => deleteCar(index)}>
-                    x
-                  </button>
-                </>
-                {car.model}
-              </TableCell>
-              <TableCell align="left">{car.year}</TableCell>
-              <TableCell align="left">{car.engine}</TableCell>
-              <TableCell align="left">{car.gear}</TableCell>
-              <TableCell align="left">{car.condition}</TableCell>
-              <TableCell align="left">{car.power}</TableCell>
-              <TableCell align="left">{car.color}</TableCell>
-              <TableCell align="left">{car.price}</TableCell>
-              <TableCell align="left">{car.city}</TableCell>
-              <TableCell align="left">{car.mileage}</TableCell>
-              <TableCell align="left">{car.extras}</TableCell>
-            </TableRow>
-          ))}
+          {car &&
+            Search(searchName).map((car, index) => (
+              <TableRow key={car.id}>
+                <TableCell>
+                  <>
+                    <button
+                      className="carBtn"
+                      onClick={() => goToUpdate(car.id, index)}
+                    >
+                      +
+                    </button>
+                    <button
+                      className="carBtn"
+                      onClick={() => deleteCar(car.id)}
+                    >
+                      x
+                    </button>
+                  </>
+                  {car.model}
+                </TableCell>
+                <TableCell align="left">{car.model}</TableCell>
+                <TableCell align="left">{car.year}</TableCell>
+                <TableCell align="left">{car.engineType}</TableCell>
+                <TableCell align="left">{car.gearBox}</TableCell>
+                <TableCell align="left">{car.condition}</TableCell>
+                <TableCell align="left">{car.horsePower}</TableCell>
+                <TableCell align="left">{car.color}</TableCell>
+                <TableCell align="left">{car.price}</TableCell>
+                <TableCell align="left">{car.city}</TableCell>
+                <TableCell align="left">{car.mileage}</TableCell>
+                <TableCell align="left">{car.extras}</TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
       <div>
@@ -119,7 +136,7 @@ export default function Catalog() {
                 onChange={handleChange}
               />
               {openUpdate ? (
-                <Button onClick={() => updateCar(index)}>Update</Button>
+                <Button onClick={() => updateCar(carId, index)}>Update</Button>
               ) : (
                 <Button onClick={Create}>Create</Button>
               )}
