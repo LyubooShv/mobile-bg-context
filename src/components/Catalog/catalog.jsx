@@ -6,25 +6,12 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Header from "../Header";
+import ModalContainer from "../Modal.container";
 import { CarsContext } from "../../context/cars";
 import { ModalContext } from "../../context/modal";
 import { SearchNameContext } from "../../context/searchContext";
-import Modal from "@mui/material/Modal";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import { CurrentUserContext } from "../../context/current-user";
 import Button from "@mui/material/Button";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
 
 export default function Catalog() {
   const {
@@ -36,8 +23,18 @@ export default function Catalog() {
     index,
     carId,
   } = useContext(ModalContext);
-  const { handleChange, Create, car, deleteCar, updateCar, Search } =
-    useContext(CarsContext);
+  const {
+    ShowMore,
+    ShowLess,
+    handleChange,
+    Create,
+    deleteCar,
+    updateCar,
+    Search,
+    engine,
+    gear,
+    condition,
+  } = useContext(CarsContext);
   const { searchName } = useContext(SearchNameContext);
 
   return (
@@ -47,6 +44,7 @@ export default function Catalog() {
         <TableHead>
           <TableRow>
             <TableCell>Make</TableCell>
+            <TableCell>User</TableCell>
             <TableCell>Model</TableCell>
             <TableCell>Year</TableCell>
             <TableCell>Engine Type</TableCell>
@@ -81,6 +79,7 @@ export default function Catalog() {
                   </>
                   {car.make}
                 </TableCell>
+                <TableCell align="left">{car.user.username}</TableCell>
                 <TableCell align="left">{car.model}</TableCell>
                 <TableCell align="left">{car.year}</TableCell>
                 <TableCell align="left">{car.engineType}</TableCell>
@@ -96,60 +95,30 @@ export default function Catalog() {
             ))
           ) : (
             <TableRow>
-              <TableCell>There Is No Such Model</TableCell>
+              <TableCell>There Are No Cars</TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
       <div>
         <Button onClick={handleOpen}>Creat Car</Button>
-        <Modal
+        <Button onClick={ShowMore}>Show More</Button>
+        {Search(searchName).length > 3 && (
+          <Button onClick={ShowLess}>Show Less</Button>
+        )}
+        <ModalContainer
           open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Create a car
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <input name="make" placeholder="make" onChange={handleChange} />
-              <input name="model" placeholder="model" onChange={handleChange} />
-              <input name="year" placeholder="year" onChange={handleChange} />
-              <input
-                name="engine"
-                placeholder="engine"
-                onChange={handleChange}
-              />
-              <input name="gear" placeholder="gear" onChange={handleChange} />
-              <input
-                name="condition"
-                placeholder="condition"
-                onChange={handleChange}
-              />
-              <input name="power" placeholder="power" onChange={handleChange} />
-              <input name="color" placeholder="color" onChange={handleChange} />
-              <input name="price" placeholder="price" onChange={handleChange} />
-              <input name="city" placeholder="city" onChange={handleChange} />
-              <input
-                name="mileage"
-                placeholder="mileage"
-                onChange={handleChange}
-              />
-              <input
-                name="extras"
-                placeholder="extras"
-                onChange={handleChange}
-              />
-              {openUpdate ? (
-                <Button onClick={() => updateCar(carId, index)}>Update</Button>
-              ) : (
-                <Button onClick={Create}>Create</Button>
-              )}
-            </Typography>
-          </Box>
-        </Modal>
+          handleClose={handleClose}
+          handleChange={handleChange}
+          Create={Create}
+          openUpdate={openUpdate}
+          updateCar={updateCar}
+          carId={carId}
+          index={index}
+          engine={engine}
+          gear={gear}
+          condition={condition}
+        />
       </div>
     </React.Fragment>
   );

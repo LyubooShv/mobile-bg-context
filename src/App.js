@@ -21,7 +21,7 @@ const {loggedIn} = useContext(CurrentUserContext)
           element={loggedIn ? <Navigate to="/catalog" /> : <SignInPage />}
         />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/catalog" element={ <ModalProvider><CarsProvider><Catalog /></CarsProvider></ModalProvider>} />
+        <Route path="/catalog" element={!loggedIn ? <Navigate to="/" /> : <ModalProvider><CarsProvider><Catalog /></CarsProvider></ModalProvider>} />
       </Routes>
     </div>
   );

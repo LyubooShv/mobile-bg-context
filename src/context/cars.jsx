@@ -1,5 +1,11 @@
 import axios from "axios";
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useMemo,
+} from "react";
 import { CurrentUserContext } from "./current-user";
 
 export const CarsContext = createContext({
@@ -21,6 +27,8 @@ export const CarsContext = createContext({
   deleteCar: () => {},
   updateCar: () => {},
   Search: () => {},
+  ShowMore: () => {},
+  ShowLess: () => {},
 });
 
 const CarsProvider = ({ children }) => {
@@ -39,16 +47,17 @@ const CarsProvider = ({ children }) => {
   const [city, setCity] = useState("");
   const [mileage, setMileage] = useState(null);
   const [extras, setExtras] = useState("");
+  const [accValue, setAccValue] = useState(3);
 
   const handleChange = (event) => {
-    const { value, name } = event.target;
+    const { value, name, id } = event.target;
 
     name === "make" && setMake(value);
     name === "model" && setModel(value);
     name === "year" && setYear(value);
-    name === "engine" && setEngine(value);
-    name === "gear" && setGear(value);
-    name === "condition" && setCondition(value);
+    id === "engine" && setEngine(value);
+    id === "gear" && setGear(value);
+    id === "condition" && setCondition(value);
     name === "power" && setPower(value);
     name === "color" && setColor(value);
     name === "price" && setPrice(value);
@@ -88,15 +97,15 @@ const CarsProvider = ({ children }) => {
         setMake(null);
         setModel(null);
         setYear(null);
-        setEngine(null);
-        setGear(null);
-        setCondition(null);
         setPower(null);
         setColor(null);
         setPrice(null);
         setCity(null);
         setMileage(null);
         setExtras(null);
+        setCondition("");
+        setGear("");
+        setEngine("");
       })
       .catch((error) => {
         console.log(error);
@@ -150,15 +159,36 @@ const CarsProvider = ({ children }) => {
         console.log(error);
         alert("Fill all fields in!");
       });
+    console.log(
+      engine,
+      gear,
+      condition,
+      extras,
+      mileage,
+      power,
+      city,
+      price,
+      year,
+      color,
+      model,
+      make
+    );
+  };
+
+  const ShowMore = () => {
+    setAccValue(accValue + 3);
+  };
+  const ShowLess = () => {
+    setAccValue(accValue - 3);
   };
 
   const Search = (searchName) => {
     if (searchName) {
-      return car.filter(
-        (e) => e.model.toUpperCase() === searchName.toUpperCase()
-      );
+      return car
+        .filter((e) => e.model.toUpperCase() === searchName.toUpperCase())
+        .filter((e, i) => i < accValue);
     } else {
-      return car;
+      return car.filter((e, i) => i < accValue);
     }
   };
 
@@ -173,23 +203,13 @@ const CarsProvider = ({ children }) => {
     <CarsContext.Provider
       value={{
         car,
-        make,
-        model,
-        year,
-        engine,
-        gear,
-        condition,
-        power,
-        color,
-        price,
-        city,
-        mileage,
-        extras,
         handleChange,
         Create,
         deleteCar,
         updateCar,
         Search,
+        ShowMore,
+        ShowLess,
       }}
     >
       {children}

@@ -4,13 +4,19 @@ import { CurrentUserContext } from "../context/current-user";
 import { SearchNameContext } from "../context/searchContext";
 
 const Header = () => {
-  const { loggedIn, SignOut } = useContext(CurrentUserContext);
+  const { loggedIn, SignOut, currentUser } = useContext(CurrentUserContext);
   const { nameChange, searchName } = useContext(SearchNameContext);
 
   return (
     <div className="headerBox">
       <div className="header">
         <h2>Simple Cars</h2>
+      </div>
+      <div className="currentUser">
+        <h4>
+          Current User:
+          {loggedIn && currentUser.data.user.username}
+        </h4>
       </div>
       <div className="signInOutLink">
         {loggedIn ? (
