@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
+
 const axios = require("axios");
 
 export const CurrentUserContext = createContext({
@@ -56,6 +57,7 @@ const CurrentUserProvider = ({ children }) => {
       .then(
         (response) => {
           console.log(response.config.data);
+          alert("Successfully signed up ");
         },
         (error) => {
           console.log(error);
@@ -64,7 +66,8 @@ const CurrentUserProvider = ({ children }) => {
       );
   };
 
-  const SignOut = () => {
+  const SignOut = (navigate) => {
+    navigate("/");
     setCurrentUser(null);
     setLoggedIn(false);
   };

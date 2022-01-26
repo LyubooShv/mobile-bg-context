@@ -2,11 +2,12 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { CurrentUserContext } from "../context/current-user";
 import { SearchNameContext } from "../context/searchContext";
+import { useNavigate } from "react-router";
 
-const Header = () => {
+const Header = (props) => {
   const { loggedIn, SignOut, currentUser } = useContext(CurrentUserContext);
   const { nameChange, searchName } = useContext(SearchNameContext);
-
+  const navigate = useNavigate();
   return (
     <div className="headerBox">
       <div className="header">
@@ -20,7 +21,7 @@ const Header = () => {
       </div>
       <div className="signInOutLink">
         {loggedIn ? (
-          <div className="signInsignOutLink" onClick={SignOut}>
+          <div className="signInsignOutLink" onClick={() => SignOut(navigate)}>
             Sign Out
           </div>
         ) : (

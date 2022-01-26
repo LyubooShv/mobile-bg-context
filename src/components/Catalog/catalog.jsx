@@ -10,7 +10,6 @@ import ModalContainer from "../Modal.container";
 import { CarsContext } from "../../context/cars";
 import { ModalContext } from "../../context/modal";
 import { SearchNameContext } from "../../context/searchContext";
-import { CurrentUserContext } from "../../context/current-user";
 import Button from "@mui/material/Button";
 
 export default function Catalog() {
@@ -102,7 +101,7 @@ export default function Catalog() {
       </Table>
       <div>
         <Button onClick={handleOpen}>Creat Car</Button>
-        <Button onClick={ShowMore}>Show More</Button>
+        <Button onClick={() => ShowMore(searchName)}>Show More</Button>
         {Search(searchName).length > 3 && (
           <Button onClick={ShowLess}>Show Less</Button>
         )}

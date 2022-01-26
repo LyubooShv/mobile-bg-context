@@ -1,11 +1,5 @@
 import axios from "axios";
-import React, {
-  createContext,
-  useState,
-  useEffect,
-  useContext,
-  useMemo,
-} from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import { CurrentUserContext } from "./current-user";
 
 export const CarsContext = createContext({
@@ -120,7 +114,11 @@ const CarsProvider = ({ children }) => {
           Authorization: `Bearer ${currentUser.data.jwtToken}`,
         },
       })
-      .then(() => setCar(car.filter((el) => el.id !== e)));
+      .then(() => setCar(car.filter((el) => el.id !== e)))
+      .catch((error) => {
+        console.log(error);
+        alert("Not your car");
+      });
   };
 
   const updateCar = (carId, index) => {
@@ -175,9 +173,30 @@ const CarsProvider = ({ children }) => {
     );
   };
 
-  const ShowMore = () => {
-    setAccValue(accValue + 3);
+  const ShowMore = (searchName) => {
+    if (searchName) {
+      const arr = car.filter(
+        (e) => e.model.toUpperCase() === searchName.toUpperCase()
+      );
+
+      if (accValue < arr.length) {
+        setAccValue(accValue + 3);
+        console.log(accValue);
+      } else if (accValue >= arr.length) {
+        setAccValue(arr.length);
+        console.log(accValue);
+      }
+    } else {
+      if (accValue < car.length) {
+        setAccValue(accValue + 3);
+        console.log(accValue);
+      } else if (accValue >= car.length) {
+        setAccValue(car.length);
+        console.log(accValue);
+      }
+    }
   };
+
   const ShowLess = () => {
     setAccValue(accValue - 3);
   };
