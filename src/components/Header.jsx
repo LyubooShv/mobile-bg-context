@@ -5,9 +5,11 @@ import { SearchNameContext } from "../context/searchContext";
 import { useNavigate } from "react-router";
 
 const Header = (props) => {
-  const { loggedIn, SignOut, currentUser } = useContext(CurrentUserContext);
+  const { SignOut } = useContext(CurrentUserContext);
   const { nameChange, searchName } = useContext(SearchNameContext);
   const navigate = useNavigate();
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+  const loggedIn = localStorage.getItem("loggedIn");
   return (
     <div className="headerBox">
       <div className="header">

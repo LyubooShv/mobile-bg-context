@@ -36,7 +36,8 @@ const CurrentUserProvider = ({ children }) => {
         (response) => {
           setCurrentUser(response);
           setLoggedIn(true);
-          console.log(response);
+          localStorage.setItem("user", JSON.stringify(response));
+          localStorage.setItem("loggedIn", true);
         },
         (error) => {
           console.log(error);
@@ -70,6 +71,7 @@ const CurrentUserProvider = ({ children }) => {
     navigate("/");
     setCurrentUser(null);
     setLoggedIn(false);
+    localStorage.clear();
   };
 
   useEffect(() => {

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -13,15 +13,8 @@ import { SearchNameContext } from "../../context/searchContext";
 import Button from "@mui/material/Button";
 
 export default function Catalog() {
-  const {
-    open,
-    handleClose,
-    handleOpen,
-    goToUpdate,
-    openUpdate,
-    index,
-    carId,
-  } = useContext(ModalContext);
+  const { open, handleClose, handleOpen, goToUpdate, openUpdate, carId } =
+    useContext(ModalContext);
   const {
     ShowMore,
     ShowLess,
@@ -30,11 +23,11 @@ export default function Catalog() {
     deleteCar,
     updateCar,
     Search,
-    engine,
-    gear,
-    condition,
+    car,
   } = useContext(CarsContext);
   const { searchName } = useContext(SearchNameContext);
+  const currentUser = JSON.parse(localStorage.getItem("user")).data.user
+    .username;
 
   return (
     <React.Fragment>
@@ -59,37 +52,52 @@ export default function Catalog() {
         </TableHead>
         <TableBody>
           {Search(searchName).length ? (
-            Search(searchName).map((car, index) => (
-              <TableRow key={car.id}>
+            Search(searchName).map((e, index) => (
+              <TableRow key={e.id}>
                 <TableCell>
-                  <>
-                    <button
-                      className="carBtn"
-                      onClick={() => goToUpdate(car.id, index)}
-                    >
-                      +
-                    </button>
-                    <button
-                      className="carBtn"
-                      onClick={() => deleteCar(car.id)}
-                    >
-                      x
-                    </button>
-                  </>
-                  {car.make}
+                  {e.user.username === currentUser && (
+                    <>
+                      <button
+                        className="carBtn"
+                        onClick={() => goToUpdate(e, index)}
+                      >
+                        +
+                      </button>
+                      <button
+                        className="carBtn"
+                        onClick={() => deleteCar(e.id)}
+                      >
+                        x
+                      </button>
+                    </>
+                  )}
+                  {e.make}
                 </TableCell>
-                <TableCell align="left">{car.user.username}</TableCell>
-                <TableCell align="left">{car.model}</TableCell>
-                <TableCell align="left">{car.year}</TableCell>
-                <TableCell align="left">{car.engineType}</TableCell>
-                <TableCell align="left">{car.gearBox}</TableCell>
-                <TableCell align="left">{car.condition}</TableCell>
-                <TableCell align="left">{car.horsePower}</TableCell>
-                <TableCell align="left">{car.color}</TableCell>
-                <TableCell align="left">{car.price}</TableCell>
-                <TableCell align="left">{car.city}</TableCell>
-                <TableCell align="left">{car.mileage}</TableCell>
-                <TableCell align="left">{car.extras}</TableCell>
+                <TableCell align="left">{e.user.username}</TableCell>
+                <TableCell align="left">{e.model}</TableCell>
+                <TableCell align="left">{e.year}</TableCell>
+                <TableCell align="left">{e.engineType}</TableCell>
+                <TableCell align="left">{e.gearBox}</TableCell>
+                <TableCell align="left">{e.condition}</TableCell>
+                <TableCell align="left">{e.horsePower}</TableCell>
+                <TableCell align="left">{e.color}</TableCell>
+                <TableCell align="left">{e.price}</TableCell>
+                <TableCell align="left">{e.city}</TableCell>
+                <TableCell align="left">{e.mileage}</TableCell>
+                <TableCell align="left">{e.extras}</TableCell>
+
+                <ModalContainer
+                  open={open}
+                  handleClose={handleClose}
+                  handleChange={handleChange}
+                  Create={Create}
+                  openUpdate={openUpdate}
+                  updateCar={updateCar}
+                  carId={carId}
+                  index={index}
+                  car={car}
+                  carElement={e}
+                />
               </TableRow>
             ))
           ) : (
@@ -105,19 +113,6 @@ export default function Catalog() {
         {Search(searchName).length > 3 && (
           <Button onClick={ShowLess}>Show Less</Button>
         )}
-        <ModalContainer
-          open={open}
-          handleClose={handleClose}
-          handleChange={handleChange}
-          Create={Create}
-          openUpdate={openUpdate}
-          updateCar={updateCar}
-          carId={carId}
-          index={index}
-          engine={engine}
-          gear={gear}
-          condition={condition}
-        />
       </div>
     </React.Fragment>
   );

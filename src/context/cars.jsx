@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { createContext, useState, useEffect, useContext } from "react";
-import { CurrentUserContext } from "./current-user";
+import { ModalContext } from "./modal";
 
 export const CarsContext = createContext({
   car: [],
@@ -26,7 +26,9 @@ export const CarsContext = createContext({
 });
 
 const CarsProvider = ({ children }) => {
-  const { currentUser } = useContext(CurrentUserContext);
+  const { editObj } = useContext(ModalContext);
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+  const loggedIn = localStorage.getItem("loggedIn");
 
   const [car, setCar] = useState([]);
   const [make, setMake] = useState("");
@@ -49,10 +51,10 @@ const CarsProvider = ({ children }) => {
     name === "make" && setMake(value);
     name === "model" && setModel(value);
     name === "year" && setYear(value);
-    id === "engine" && setEngine(value);
-    id === "gear" && setGear(value);
+    id === "engineType" && setEngine(value);
+    id === "gearBox" && setGear(value);
     id === "condition" && setCondition(value);
-    name === "power" && setPower(value);
+    name === "horsePower" && setPower(value);
     name === "color" && setColor(value);
     name === "price" && setPrice(value);
     name === "city" && setCity(value);
@@ -103,8 +105,22 @@ const CarsProvider = ({ children }) => {
       })
       .catch((error) => {
         console.log(error);
-        alert("Fill all fields in!");
+        alert("Error");
       });
+    // console.log(
+    //   engine,
+    //   gear,
+    //   condition,
+    //   extras,
+    //   mileage,
+    //   power,
+    //   city,
+    //   price,
+    //   year,
+    //   color,
+    //   model,
+    //   make
+    // );
   };
 
   const deleteCar = (e) => {
@@ -122,55 +138,24 @@ const CarsProvider = ({ children }) => {
   };
 
   const updateCar = (carId, index) => {
-    const updatedCar = [...car];
-    axios
-      .put(
-        `http://localhost:8083/cars/${currentUser.data.user.id}`,
-        {
-          id: carId,
-          make,
-          model,
-          year,
-          engineType: engine,
-          gearBox: gear,
-          condition,
-          horsePower: power,
-          color,
-          price,
-          city,
-          mileage,
-          user: currentUser.data.user,
-          extras,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${currentUser.data.jwtToken}`,
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-        updatedCar.splice(index, 1, res.data);
-      })
-      .then(() => setCar(updatedCar))
-      .catch((error) => {
-        console.log(error);
-        alert("Fill all fields in!");
-      });
-    console.log(
-      engine,
-      gear,
-      condition,
-      extras,
-      mileage,
-      power,
-      city,
-      price,
-      year,
-      color,
-      model,
-      make
-    );
+    // const updatedCar = [...car];
+    // axios
+    //   .put(`http://localhost:8083/cars/${currentUser.data.user.id}`, editObj, {
+    //     headers: {
+    //       Authorization: `Bearer ${currentUser.data.jwtToken}`,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log(res);
+    //     updatedCar.splice(index, 1, res.data);
+    //   })
+    //   .then(() => setCar(updatedCar))
+    //   .catch((error) => {
+    //     console.log(error);
+    //     alert("Fill all fields in!");
+    //   });
+    // console.log(editObj, carId, index, currentUser.data.user.id);
+    console.log(editObj);
   };
 
   const ShowMore = (searchName) => {
@@ -195,6 +180,10 @@ const CarsProvider = ({ children }) => {
         console.log(accValue);
       }
     }
+    console.log(currentUser);
+    console.log(loggedIn);
+    console.log(JSON.parse(localStorage.getItem("user")));
+    console.log(localStorage.getItem("loggedIn"));
   };
 
   const ShowLess = () => {
@@ -204,7 +193,12 @@ const CarsProvider = ({ children }) => {
   const Search = (searchName) => {
     if (searchName) {
       return car
-        .filter((e) => e.model.toUpperCase() === searchName.toUpperCase())
+        .filter(
+          (e) =>
+            e.model.toUpperCase() === searchName.toUpperCase() ||
+            e.make.toUpperCase() === searchName.toUpperCase() ||
+            e.user.username.toUpperCase() === searchName.toUpperCase()
+        )
         .filter((e, i) => i < accValue);
     } else {
       return car.filter((e, i) => i < accValue);
