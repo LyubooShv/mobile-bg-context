@@ -40,7 +40,7 @@ const ModalProvider = ({ children }) => {
   };
 
   const editChange = (n, e) => {
-    setEditObj({ ...carInfo, [n]: e.target.value });
+    setEditObj({ ...editObj, [n]: e.target.value });
   };
 
   useEffect(() => {

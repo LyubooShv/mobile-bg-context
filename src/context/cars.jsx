@@ -26,7 +26,7 @@ export const CarsContext = createContext({
 });
 
 const CarsProvider = ({ children }) => {
-  const { editObj } = useContext(ModalContext);
+  const { editObj, index } = useContext(ModalContext);
   const currentUser = JSON.parse(localStorage.getItem("user"));
   const loggedIn = localStorage.getItem("loggedIn");
 
@@ -137,25 +137,25 @@ const CarsProvider = ({ children }) => {
       });
   };
 
-  const updateCar = (carId, index) => {
-    // const updatedCar = [...car];
-    // axios
-    //   .put(`http://localhost:8083/cars/${currentUser.data.user.id}`, editObj, {
-    //     headers: {
-    //       Authorization: `Bearer ${currentUser.data.jwtToken}`,
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log(res);
-    //     updatedCar.splice(index, 1, res.data);
-    //   })
-    //   .then(() => setCar(updatedCar))
-    //   .catch((error) => {
-    //     console.log(error);
-    //     alert("Fill all fields in!");
-    //   });
-    // console.log(editObj, carId, index, currentUser.data.user.id);
-    console.log(editObj);
+  const updateCar = () => {
+    const updatedCar = [...car];
+    axios
+      .put(`http://localhost:8083/cars/${currentUser.data.user.id}`, editObj, {
+        headers: {
+          Authorization: `Bearer ${currentUser.data.jwtToken}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        updatedCar.splice(index, 1, res.data);
+      })
+      .then(() => setCar(updatedCar))
+      .catch((error) => {
+        console.log(error);
+        alert("Fill all fields in!");
+      });
+    // console.log(index);
+    // console.log(editObj);
   };
 
   const ShowMore = (searchName) => {

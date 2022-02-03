@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 const axios = require("axios");
 
 export const CurrentUserContext = createContext({
@@ -68,10 +68,10 @@ const CurrentUserProvider = ({ children }) => {
   };
 
   const SignOut = (navigate) => {
-    navigate("/");
     setCurrentUser(null);
     setLoggedIn(false);
     localStorage.clear();
+    navigate("/");
   };
 
   useEffect(() => {

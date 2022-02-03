@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -27,15 +27,8 @@ const ModalContainer = ({
   carId,
   index,
   carInfo,
-  carElement,
 }) => {
   const { editObj, editChange } = useContext(ModalContext);
-
-  // const [editObj, setEditObj] = useState({});
-
-  // useEffect(() => {
-  //   carInfo && setEditObj({ ...carElement });
-  // }, []);
 
   return (
     <Modal
@@ -175,7 +168,7 @@ const ModalContainer = ({
             </>
 
             {openUpdate ? (
-              <Button onClick={() => updateCar(carId, index)}>Update</Button>
+              <Button onClick={updateCar}>Update</Button>
             ) : (
               <Button onClick={Create}>Create</Button>
             )}
